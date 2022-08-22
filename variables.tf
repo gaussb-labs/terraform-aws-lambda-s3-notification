@@ -30,3 +30,9 @@ variable "lambda_timeout" {
   default     = 120
   description = "Amount of time your Lambda Function has to run in seconds"
 }
+
+variable "lambda_execution_policy_arn" {
+  type        = string
+  description = "The managed policy arn for lambda, for more info: https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html#permissions-executionrole-features"
+  default     = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
