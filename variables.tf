@@ -24,3 +24,9 @@ variable "env_vars" {
   type        = map(string)
   description = "A map of env vars to be passed to lambda function"
 }
+
+variable "lambda_timeout" {
+  type        = number
+  default     = 120
+  description = "Amount of time your Lambda Function has to run in seconds"
+}
