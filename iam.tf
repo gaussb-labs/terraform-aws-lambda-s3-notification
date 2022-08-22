@@ -1,5 +1,6 @@
 locals {
-  bucket_arns = [for bucket in toset(var.bucket_names) : "arn:aws:s3:::${bucket}/*"]
+  cloudwatch_log_arn = "arn:aws:logs:${data.aws_region.current.name}:*:*"
+  bucket_arns        = [for bucket in toset(var.bucket_names) : "arn:aws:s3:::${bucket}/*"]
 }
 
 resource "aws_iam_role" "iam_for_lambda" {
@@ -31,7 +32,7 @@ resource "aws_iam_role_policy" "logs" {
           "logs:PutLogEvents",
         ],
         "Effect" : "Allow",
-        "Resource" : "arn:aws:logs:${data.aws_region.current.name}:*:*",
+        "Resource" : local.cloudwatch_log_arn,
       },
       {
         "Action" : [
