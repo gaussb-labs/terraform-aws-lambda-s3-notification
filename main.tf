@@ -35,7 +35,7 @@ resource "aws_lambda_function_event_invoke_config" "lambda_s3_invoke_config" {
   maximum_retry_attempts = 2
 }
 
-resource "aws_lambda_permission" "allow_s3_invoke_lambda_s3_papertrail" {
+resource "aws_lambda_permission" "allow_s3_invoke_lambda" {
   for_each      = toset(var.bucket_names)
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda_s3.arn
@@ -43,7 +43,7 @@ resource "aws_lambda_permission" "allow_s3_invoke_lambda_s3_papertrail" {
   source_arn    = "arn:aws:s3:::${each.value}"
 }
 
-resource "aws_s3_bucket_notification" "push_to_lambda_s3_papertrail" {
+resource "aws_s3_bucket_notification" "push_to_lambda" {
   for_each = toset(var.bucket_names)
   bucket   = each.value
 
@@ -54,5 +54,5 @@ resource "aws_s3_bucket_notification" "push_to_lambda_s3_papertrail" {
     filter_suffix       = ".log.gz"
   }
 
-  depends_on = [aws_lambda_permission.allow_s3_invoke_lambda_s3_papertrail]
+  depends_on = [aws_lambda_permission.allow_s3_invoke_lambda]
 }
