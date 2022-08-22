@@ -1,17 +1,26 @@
 variable "environment" {
   type        = string
   description = "This is the environment in which the load balancer will be running"
+
+  validation {
+    condition     = can(regex("^[a-z]+$", var.environment))
+    error_message = "Environment must be a lowercase word"
+  }
 }
 
 variable "bucket_names" {
   type        = list(string)
   description = "List of S3 bucket names to create Event Notifications for."
-  default     = []
+
+  validation {
+    condition     = length(var.bucket_names) > 0
+    error_message = "Bucket Names must contain atleast one bucket"
+  }
 }
 
 variable "directory_path" {
   type        = string
-  description = "The path to the directory containing the zip file that will be executed by lambda"
+  description = "The path to the directory containing the zip file that will be executed by lambda. Defaults to current directory."
   default     = "."
 }
 
@@ -28,12 +37,19 @@ variable "file_name" {
 variable "env_vars" {
   type        = map(string)
   description = "A map of env vars to be passed to lambda function"
+
+  validation {
+    condition = alltrue([
+      for key, val in var.env_vars : can(regex("^[A-Z]+$", key))
+    ])
+    error_message = "Environment variables should have key in upper case be of the form {VARIABLE_NAME: \"value\"}"
+  }
 }
 
 variable "lambda_timeout" {
   type        = number
-  default     = 120
   description = "Amount of time your Lambda Function has to run in seconds"
+  default     = 120
 }
 
 variable "lambda_execution_policy_arn" {
