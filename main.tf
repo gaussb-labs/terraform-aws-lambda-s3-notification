@@ -1,5 +1,5 @@
 locals {
-  lambda_function_name = "${lower(var.environment)}_${lower(var.file_name)}"
+  lambda_function_name = "${lower(var.environment)}_${replace(lower(var.file_name), ".zip", "")}"
   path_to_binary       = "${var.directory_path}/${var.file_name}"
 }
 
