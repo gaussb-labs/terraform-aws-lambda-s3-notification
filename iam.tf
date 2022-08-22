@@ -1,7 +1,3 @@
-locals {
-  lambda_basic_execution_role_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-}
-
 resource "aws_iam_role" "iam_for_lambda" {
   name = "iam_for_${var.environment}_${var.file_name}"
 
@@ -48,5 +44,5 @@ resource "aws_iam_role_policy" "logs" {
 
 resource "aws_iam_role_policy_attachment" "lambda_policy" {
   role       = aws_iam_role.iam_for_lambda.name
-  policy_arn = local.lambda_basic_execution_role_arn
+  policy_arn = var.lambda_execution_policy_arn
 }
