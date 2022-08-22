@@ -18,6 +18,11 @@ variable "file_path" {
 variable "file_name" {
   type        = string
   description = "This is the name of the zip file that contains binary to be executed by the lambda"
+
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9_]+.(zip)$", var.file_name))
+    error_message = "The file name must be a zip file with alpha numeric character and can contain _"
+  }
 }
 
 variable "env_vars" {
