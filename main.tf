@@ -21,7 +21,7 @@ resource "aws_lambda_function" "lambda_s3" {
   source_code_hash = filebase64sha256(local.path_to_binary)
 
   environment {
-    variables = merge(var.env_vars, { "ENVIRONMENT" : var.environment })
+    variables = var.env_vars
   }
 
   depends_on = [
