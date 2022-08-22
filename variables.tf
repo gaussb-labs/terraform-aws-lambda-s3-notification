@@ -51,3 +51,15 @@ variable "lambda_execution_policy_arn" {
   description = "The managed policy arn for lambda, for more info: https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html#permissions-executionrole-features"
   default     = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
+
+variable "bucket_filter_prefix" {
+  type        = string
+  description = "Optional prefix to limit the notifications to objects with keys that start with matching characters"
+  default     = ""
+}
+
+variable "bucket_filter_suffix" {
+  type        = string
+  description = "Optional suffix to limit the notifications to objects with keys that end with matching characters"
+  default     = ""
+}
