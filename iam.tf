@@ -4,7 +4,7 @@ locals {
 }
 
 resource "aws_iam_role" "iam_for_lambda" {
-  name = "iam_for_${var.environment}_${var.file_name}"
+  name = "iam_for_${local.lambda_function_name}"
 
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
@@ -21,7 +21,7 @@ resource "aws_iam_role" "iam_for_lambda" {
 }
 
 resource "aws_iam_role_policy" "logs" {
-  name = "${var.environment}_${var.file_name}_logs"
+  name = "${local.lambda_function_name}_logs"
   role = aws_iam_role.iam_for_lambda.name
   policy = jsonencode({
     "Statement" : [

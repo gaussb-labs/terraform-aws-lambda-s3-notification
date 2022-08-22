@@ -1,15 +1,16 @@
 locals {
-  path_to_binary = "${var.file_path}/${var.file_name}.zip"
+  lambda_function_name = "${lower(var.environment)}_${lower(var.file_name)}"
+  path_to_binary       = "${var.file_path}/${var.file_name}.zip"
 }
 
 resource "aws_cloudwatch_log_group" "lambda_s3" {
-  name              = "/aws/lambda/${var.environment}_${var.file_name}"
+  name              = "/aws/lambda/${local.lambda_function_name}"
   retention_in_days = 14
 }
 
 resource "aws_lambda_function" "lambda_s3" {
   filename      = local.path_to_binary
-  function_name = "${var.environment}_${var.file_name}"
+  function_name = local.lambda_function_name
   handler       = "main"
   runtime       = "go1.x"
   role          = aws_iam_role.iam_for_lambda.arn
