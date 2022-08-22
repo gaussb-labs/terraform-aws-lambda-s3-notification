@@ -37,13 +37,7 @@ variable "file_name" {
 variable "env_vars" {
   type        = map(string)
   description = "A map of env vars to be passed to lambda function"
-
-  validation {
-    condition = alltrue([
-      for key, val in var.env_vars : can(regex("^[A-Z]+$", key))
-    ])
-    error_message = "Environment variables should have key in upper case be of the form {VARIABLE_NAME: \"value\"}"
-  }
+  default     = {}
 }
 
 variable "lambda_timeout" {
