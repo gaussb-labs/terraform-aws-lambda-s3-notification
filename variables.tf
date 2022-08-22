@@ -9,9 +9,9 @@ variable "bucket_names" {
   default     = []
 }
 
-variable "file_path" {
+variable "directory_path" {
   type        = string
-  description = "This is the path to the folder containing the zip file that will be executed by lambda"
+  description = "The path to the directory containing the zip file that will be executed by lambda"
   default     = "."
 }
 

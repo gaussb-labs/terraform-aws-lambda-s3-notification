@@ -1,6 +1,6 @@
 locals {
   lambda_function_name = "${lower(var.environment)}_${lower(var.file_name)}"
-  path_to_binary       = "${var.file_path}/${var.file_name}"
+  path_to_binary       = "${var.directory_path}/${var.file_name}"
 }
 
 resource "aws_cloudwatch_log_group" "lambda_s3" {
