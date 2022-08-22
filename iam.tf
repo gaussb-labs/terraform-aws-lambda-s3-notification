@@ -1,3 +1,7 @@
+locals {
+  bucket_arns = [for bucket in toset(var.bucket_names) : "arn:aws:s3:::${bucket}/*"]
+}
+
 resource "aws_iam_role" "iam_for_lambda" {
   name = "iam_for_${var.environment}_${var.file_name}"
 
@@ -34,9 +38,7 @@ resource "aws_iam_role_policy" "logs" {
           "s3:GetObject",
         ],
         "Effect" : "Allow",
-        "Resource" : [
-          for bucket in toset(var.bucket_names) : "arn:aws:s3:::${bucket}/*"
-        ]
+        "Resource" : local.bucket_arns,
       }
     ]
   })
